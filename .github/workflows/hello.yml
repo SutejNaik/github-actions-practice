@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  test:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,5 +19,5 @@ jobs:
       - name: Run tests
         run: python test_app.py
 
-      - name: Build check
-        run: python -m py_compile app.py
+      - name: Build Docker image
+        run: docker build -t github-actions-practice .

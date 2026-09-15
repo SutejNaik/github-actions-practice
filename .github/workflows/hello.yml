@@ -1,12 +1,18 @@
-name: Hello GitHub Actions
+name: GitHub Actions Practice
 
 on:
   push:
 
 jobs:
-  hello:
+  practice:
     runs-on: ubuntu-latest
 
     steps:
       - name: Say Hello
         run: echo "Hello from GitHub Actions!"
+
+      - name: Show Current Directory
+        run: pwd
+
+      - name: List Files
+        run: ls

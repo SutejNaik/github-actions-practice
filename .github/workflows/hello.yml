@@ -15,4 +15,4 @@ jobs:
         run: ls -la
 
       - name: Run a test
-        run: test -f README.md
+        run: test -f does-not-exist.txt

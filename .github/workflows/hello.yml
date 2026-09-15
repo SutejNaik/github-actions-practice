@@ -1,4 +1,4 @@
-name: Python CI
+name: OIDC Debug
 
 on:
   push:
@@ -8,26 +8,12 @@ permissions:
   contents: read
 
 jobs:
-  ci:
+  debug:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Debug OIDC claims
+        uses: github/actions-oidc-debugger@main
         with:
-          python-version: '3.12'
+          audience: sts.amazonaws.com
 
-      - name: Run tests
-        run: python test_app.py
-
-      - name: Build Docker image
-        run: docker build -t github-actions-practice .
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v5
-        with:
-          role-to-assume: arn:aws:iam::228210524459:role/github-actions-ecr-role
-          aws-region: ap-south-1

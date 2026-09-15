@@ -1,18 +1,20 @@
-name: GitHub Actions Practice
+name: Python CI
 
 on:
   push:
 
 jobs:
-  practice:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Show repository files
-        run: ls -la
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: Run a test
-        run: test -f README.md
+      - name: Run tests
+        run: python test_app.py

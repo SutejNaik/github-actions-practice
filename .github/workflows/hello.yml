@@ -13,3 +13,6 @@ jobs:
 
       - name: Show repository files
         run: ls -la
+
+      - name: Run a test
+        run: test -f README.md

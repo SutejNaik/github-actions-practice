@@ -1,5 +1,4 @@
-name: AWS OIDC Test
-# Test AWS OIDC
+name: Docker CD
 
 on:
   push:
@@ -8,19 +7,42 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: github-actions-practice
+
 jobs:
-  aws-test:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run tests
+        run: python test_app.py
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: arn:aws:iam::228210524459:role/github-actions-ecr-role
-          aws-region: ap-south-1
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: Check AWS identity
-        run: aws sts get-caller-identity
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }} .
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ 
+          steps.login-ecr.outputs.registry }}/${{ 
+          env.ECR_REPOSITORY }}:${{ github.sha }}

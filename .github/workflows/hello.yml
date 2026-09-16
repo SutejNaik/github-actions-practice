@@ -1,4 +1,5 @@
 name: AWS OIDC Test
+# Test AWS OIDC
 
 on:
   push:
